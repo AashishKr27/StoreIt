@@ -1,10 +1,11 @@
 "use server";
 
 import { ID, Query } from "node-appwrite";
-import { createAdminClient } from "../appwrite";
+import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
+import { avatarPlaceholderUrl } from "@/constants";
 
 const handleError = (error: unknown, message: string) => {
   console.log(error, message);
@@ -54,8 +55,7 @@ export const createAccount = async ({
         {
           fullName,
           email,
-          avatar:
-            "https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg",
+          avatar: avatarPlaceholderUrl,
           accountid: accountId,
         }
       );
@@ -88,3 +88,15 @@ export const verifySecret = async ({
     handleError(error, "Failed to verify OTP");
   }
 };
+
+export const getCurrentUser = async () => {
+  const { databases, account } = await createSessionClient();
+  const result = await account.get()
+  const user = await databases.listDocuments(
+    appwriteConfig.databaseId,
+    appwriteConfig.usersCollectionId,
+    [Query.equal("accountid", [result.$id])]
+  );
+  if(user.total <= 0) return null;
+  return parseStringify(user.documents[0]);
+}

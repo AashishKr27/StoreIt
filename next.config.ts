@@ -16,7 +16,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.pixabay.com",
+        hostname: "static.vecteezy.com",
       },
       {
         protocol: "https",
