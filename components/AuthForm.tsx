@@ -23,6 +23,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { createAccount, signInUser } from "@/lib/actions/user.actions";
 import OTPModal from "./OTPModal";
+import { parseStringify } from "@/lib/utils";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -63,7 +64,12 @@ const AuthForm = ({ type }: { type: FormType }) => {
               email: values.email,
             })
           : await signInUser({ email: values.email });
-      setAccountId(user.accountId);
+      const { accountId } = parseStringify(user);
+    if (accountId) {
+      setAccountId(accountId);
+    } else {
+      setErrorMessage(user.error || "Failed to process authentication");
+    }
     } catch (error: any) {
       setErrorMessage(
         error.message || "Failed to create account. Please try again"

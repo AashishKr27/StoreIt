@@ -1,3 +1,4 @@
+/* eslint-disable object-shorthand */
 "use server";
 
 import { ID, Query } from "node-appwrite";
@@ -57,7 +58,7 @@ export const createAccount = async ({
           fullName,
           email,
           avatar: avatarPlaceholderUrl,
-          accountId,
+          accountId: accountId,
         }
       );
     }
@@ -84,7 +85,7 @@ export const verifySecret = async ({
       sameSite: "strict",
       secure: true,
     });
-    return parseStringify({ sesssionId: session.$id });
+    return parseStringify({ sessionId: session.$id });
   } catch (error) {
     handleError(error, "Failed to verify OTP");
   }
@@ -119,9 +120,9 @@ export const signInUser = async ({ email }: { email: string }) => {
     const existingUser = await getUserByEmail(email);
     if(existingUser) {
       await sendEmailOTP({ email });
-      return parseStringify({ accountId: existingUser.accountid });
+      return parseStringify({ accountId: existingUser.accountId });
     }
-    return parseStringify({ accountID: null, error: "User not found"})
+    return parseStringify({ accountId: null, error: "User not found"})
   } catch (error) {
     handleError(error, "Failed to sign in user");
   }
