@@ -6,10 +6,17 @@ import FormattedDateTime from "@/components/FormattedDateTime";
 // import ActionDropdown from "@/components/ActionDropdown";
 
 const Card = ({ file }: { file: Models.Document }) => {
-  console.log(file.url);
   return (
-    <Link href={`${file.url}`} target="_blank" className="file-card">
+    <Link href={file.url} target="_blank" className="file-card">
       <div className="flex justify-between">
+        <Thumbnail
+          type={file.type}
+          extension={file.extension}
+          url={file.url}
+          className="!size-20"
+          imageClassName="!size-11"
+        />
+
         <div className="flex flex-col items-end justify-between">
           {/* <ActionDropdown file={file} /> */}
           <p className="body-1">{convertFileSize(file.size)}</p>

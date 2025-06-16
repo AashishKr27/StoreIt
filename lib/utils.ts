@@ -2,10 +2,10 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
+
 export const parseStringify = (value: unknown) =>
   JSON.parse(JSON.stringify(value));
-
-export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -175,8 +175,12 @@ export const getFileIcon = (
 };
 
 export const constructFileUrl = (bucketFileId: string) => {
-  return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID}`;
-  // Note: Changed from PROJECT to PROJECT_ID to match your config
+  const projectId = process.env.NEXT_PUBLIC_APPWRITE_PROJECT_ID;
+  if (!projectId) {
+    console.error("Error: NEXT_PUBLIC_APPWRITE_PROJECT_ID is undefined.");
+    return "#"; // fallback URL or empty string to prevent broken link
+  }
+  return `${process.env.NEXT_PUBLIC_APPWRITE_ENDPOINT}/storage/buckets/${process.env.NEXT_PUBLIC_APPWRITE_BUCKET}/files/${bucketFileId}/view?project=${projectId}`;
 };
 
 export const constructDownloadUrl = (bucketFileId: string) => {
