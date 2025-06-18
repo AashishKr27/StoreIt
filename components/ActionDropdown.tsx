@@ -28,7 +28,7 @@ import Link from "next/link";
 import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { renamefile, updateFileUsers } from "@/lib/actions/files.actions";
+import { deleteFile, renamefile, updateFileUsers } from "@/lib/actions/files.actions";
 import { usePathname } from "next/navigation";
 import { FileDetails, ShareInput } from "./ActionsModalContent";
 
@@ -62,7 +62,11 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           emails,
           path,
         }),
-      delete: () => {},
+      delete: () => deleteFile({
+        fileId: file.$id,
+        bucketFileId: file.bucketFileId,
+        path,
+      }),
     };
 
     success = await actions[action.value as keyof typeof actions]();
@@ -104,6 +108,12 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
               onInputChange={setEmails}
               onRemove={handleRemoveUser}
             />
+          )}
+          {value === "delete" && (
+            <p className="delete-confirmation">
+              Are you sure you want to delete this file{" "}
+              <span className="delete-file-name">{file.name}</span>{" "}?
+            </p>
           )}
         </DialogHeader>
         {["rename", "share", "delete"].includes(value) && (

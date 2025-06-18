@@ -1,3 +1,4 @@
+/* eslint-disable no-empty-pattern */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -64,22 +65,23 @@ export const uploadFile = async ({
   }
 };
 
-const createQueries = (currentUser: Models.Document) => {
+const createQueries = (currentUser: Models.Document, types: string[]) => {
   const queries = [
     Query.or([
       Query.equal("owner", [currentUser.$id]),
       Query.contains("users", currentUser.email),
     ]),
   ];
+  if (types.length > 0) queries.push(Query.equal("type", types));
   return queries;
 };
 
-export const getFiles = async () => {
+export const getFiles = async ({ types }: GetFilesProps) => {
   const { databases } = await createAdminClient();
   try {
     const currentUser = await getCurrentUser();
     if (!currentUser) throw new Error("User not found");
-    const queries = createQueries(currentUser);
+    const queries = createQueries(currentUser, types);
     // console.log({currentUser, queries});
     const files = await databases.listDocuments(
       appwriteConfig.databaseId,
@@ -112,6 +114,28 @@ export const renamefile = async ({
     );
     revalidatePath(path);
     return parseStringify(updatedFile);
+  } catch (error) {
+    handleError(error, "Failed to rename file");
+  }
+};
+
+export const deleteFile = async ({
+  fileId,
+  bucketFileId,
+  path,
+}: DeleteFileProps) => {
+  const { databases, storage } = await createAdminClient();
+  try {
+    const deletedFile = await databases.deleteDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.filesCollectionId,
+      fileId
+    );
+    if (deletedFile) {
+      await storage.deleteFile(appwriteConfig.bucketId, bucketFileId);
+    }
+    revalidatePath(path);
+    return parseStringify({ status: "success" });
   } catch (error) {
     handleError(error, "Failed to rename file");
   }
