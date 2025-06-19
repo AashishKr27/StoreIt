@@ -30,7 +30,7 @@ or
 yarn install
 
 # 3. Create a `.env.local` file in the root directory and add the following values:  
-NEXT_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1  
+NEXT_PUBLIC_APPWRITE_ENDPOINT=your_databse_endpoint 
 NEXT_PUBLIC_APPWRITE_PROJECT=your_project_id  
 NEXT_PUBLIC_APPWRITE_BUCKET_ID=your_bucket_id  
 NEXT_PUBLIC_APPWRITE_DATABASE_ID=your_database_id  
