@@ -4,7 +4,19 @@ A full-stack file storage and management web application built using Next.js 15,
 
 Features include file upload, authentication via Appwrite, responsive UI using Tailwind CSS, form validation with Zod and React Hook Form, data visualization using Recharts, debounced search input, and modern UI feedback via Radix UI and toasts.
 
-Tech Stack used: Next.js for SSR and routing, TypeScript for static typing, Tailwind CSS for styling, Appwrite for backend services (auth, storage, DB), React Hook Form for efficient form handling, Zod for schema validation, Recharts for charting, Radix UI for accessible components.
+# 📂 Tech Stack
+
+| Name                          | Description                              |
+|-------------------------------|------------------------------------------|
+| Next.js                       | React framework for full-stack apps      |
+| TypeScript                    | Typed JavaScript                         |
+| Tailwind CSS                  | Utility-first CSS framework              |
+| Appwrite                      | Backend server for auth and file storage |
+| Radix UI                      | Accessible UI components                 |
+| React Hook Form               | Performant form handling                 |
+| Zod                           | Schema validation                        |
+| Recharts                      | Charting library for React               |
+
 
 To run this project locally:
 
@@ -43,17 +55,17 @@ Open http://localhost:3000 to view the app.
 
 # Project structure (simplified):
 
-store_it/  
-├── components/ (UI components)  
-├── app/ (Next.js app router structure)  
-├── lib/ (Utility functions)  
-├── constants/ (App-wide constants)  
-├── types/ (TypeScript definitions)  
-├── .env.local (env variables, not committed)  
-├── next.config.ts  
-├── tailwind.config.ts  
-├── tsconfig.json  
-├── package.json
+store_it/
+├── components/           # UI components
+├── app/                  # Next.js app directory
+├── lib/                  # Utility functions
+├── constants/            # Static values and enums
+├── types/                # TypeScript types
+├── .env.local            # Local environment variables (excluded from git)
+├── next.config.ts        # Next.js configuration
+├── tailwind.config.ts    # Tailwind CSS configuration
+├── tsconfig.json         # TypeScript configuration
+├── package.json          # Project metadata and scripts
 
 # Todo items:  
 - Add pagination to file listing  
