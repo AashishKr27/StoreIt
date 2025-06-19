@@ -82,5 +82,5 @@ git push origin feature-name
 Licensed under the MIT License.
 
 Made by Ashish Kumar  
-GitHub: [https://github.com/AashishKr27]<br/>
-LiveDemo : [https://store-it-tawny.vercel.app/sign-up]
+[GitHub](https://github.com/AashishKr27)<br/>
+[LiveDemo](https://store-it-tawny.vercel.app/sign-up)
